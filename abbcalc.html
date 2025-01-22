@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kredit Kalkulyatoru</title>
+    <style>
+        .container {
+            width: 650px;
+            margin: 100px auto;
+        }
+
+        img {
+            width: 26px;
+            height: 26px;
+            object-fit: contain;
+        }
+
+        #all {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: "sf_pro_display", sans-serif;
+        }
+
+        h1 {
+            padding-bottom: 30px;
+            font-weight: 600;
+            font-size: 32px;
+        }
+
+        input {
+            width: 100%;
+            top: 80px;
+            left: -2px;
+            background: #259aee;
+            height: 4px;
+            position: absolute;
+            will-change: width;
+        }
+
+
+
+        .left-part {
+            height: 50vh;
+            position: relative;
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+
+            span {
+                display: flex;
+                justify-content: space-between;
+
+                p {
+                    color: #666;
+                    font-weight: 300;
+                }
+
+                h3 {
+                    font-weight: 500;
+                }
+
+            }
+
+            .low {
+                font-size: 14px;
+            }
+
+            .mebleg,
+            .muddet,
+            .derece {
+                padding: 10px 20px;
+                border-top: 2px solid rgb(228, 228, 228);
+                border-right: 2px solid rgb(228, 228, 228);
+                border-left: 2px solid rgb(228, 228, 228);
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        #mebleg {
+            position: relative;
+            height: 30%;
+        }
+        .right-part{
+            padding-top:12vh;
+            height: 38vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            hr{
+                width: 100%;
+            }
+        }
+        .ayliq,
+        .umumi {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            
+            div {
+                font-size: 26px;
+                font-weight: 600;
+                display: flex;
+                gap: 3px;
+                align-items: center;
+                height: 30px;
+            }
+
+            h2 {
+                font-weight: 500;
+                font-size: 16px;
+            }
+        }
+
+        button {
+            
+            background-color: rgb(32, 88, 187);
+            border: none;
+            border-radius: 5px;
+            padding: 15px 25px;
+            transition: .4s;
+            color: rgb(255, 255, 255);
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="all" onload="calculator()">
+            <div class="left-part">
+                <h1>Kredit Kalkulyatoru</h1>
+                <div id="mebleg">
+                    <div class="mebleg">
+                        <span>
+                            <p>Kredit meblegi</p>
+                            <h3 id="first">5000 AZN</h3>
+                        </span>
+                    </div>
+                    <input id="valuefirst" type="range" max="40000" min="300" value="5000" />
+                    <span class="low">
+                        <p>300</p>
+                        <p>40000</p>
+                    </span>
+
+                </div>
+                <div id="mebleg">
+                    <div class="muddet">
+                        <span>
+                            <p>Kredit muddeti</p>
+                            <h3 id="second">6 ay</h3>
+                        </span>
+                    </div>
+                    <input id="valuesecond" type="range" max="59" min="3" value="6" />
+                    <span class="low">
+                        <p>3 ay</p>
+                        <p>59 ay</p>
+                    </span>
+                </div>
+                <div id="mebleg">
+                    <div class="derece">
+                        <span>
+                            <p>Faiz derecesi</p>
+                            <h3 id="third">10.9%</h3>
+                        </span>
+                    </div>
+                    <input id="valuethird" type="range" min="10.9" max="40" step="0.1" value="10.9" />
+                    <span class="low">
+                        <p>10.9%</p>
+                    </span>
+                </div>
+            </div>
+
+            <div class="right-part">
+                <div class="ayliq">
+                    <div>
+                        <p id="odenish">0.00</p>
+                        <img src="manat.png" alt="Currency">
+                    </div>
+                    <h2>Ayliq odenish</h2>
+                </div>
+                <hr />
+                <div class="umumi">
+                    <div>
+                        <p id="umumi-mebleg">0.00</p>
+                        <img src="manat.png" alt="Currency">
+                    </div>
+                    <h2>Umumi mebleg</h2>
+                </div>
+                <button>Kredit alin</button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script>
+        const valuefirst = document.getElementById('valuefirst');
+        const valuesecond = document.getElementById('valuesecond');
+        const valuethird = document.getElementById('valuethird');
+        const odenish = document.getElementById('odenish');
+        const umumiMebleg = document.getElementById('umumi-mebleg');
+        const first = document.getElementById('first');
+        const second = document.getElementById('second');
+        const third = document.getElementById('third');
+        function calculator() {
+            let a = parseFloat(valuefirst.value);
+            let b = parseInt(valuesecond.value);
+            let c = parseFloat(valuethird.value);
+            first.innerHTML = a + " AZN";
+            second.innerHTML = b + " ay";
+            third.innerHTML = c + " %";
+            let odenmeli = ((a * (c / 1200)) / (1 - Math.pow(1 + (c / 1200), -b))).toFixed(2);
+            odenish.innerHTML = odenmeli;
+            let umumi = (odenmeli * b).toFixed(2);
+            umumiMebleg.innerHTML = umumi;
+        }
+        valuefirst.addEventListener('input', calculator);
+        valuesecond.addEventListener('input', calculator);
+        valuethird.addEventListener('input', calculator);
+        calculator();
+    </script>
+</body>
+
+</html>
